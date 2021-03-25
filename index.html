@@ -1,0 +1,64 @@
+<html>
+     <head>
+     <title>Nachschüssiger Rentenendwertrechner</title>
+     <meta http-equiv="Conten-Type" content="text/html; charset=utf-8">
+
+     <script>
+          "use strict";
+         function fRechner() {
+
+          var vAusgabe;
+          var vRentenendwert;
+          var vRente;
+          var vLaufzeit;
+          var vZinssatz;
+          var vRenteJahresEnde;
+          var vZinsen;
+          var vJahr = 0;
+
+     vZinssatz = parseFloat(document.getElementById("idZinssatz").value);
+     vRente = parseFloat(document.getElementById("idStartkapital").value);
+     vLaufzeit = parseFloat(document.getElementById("idLaufzeit").value);
+     vRentenendwert = parseFloat(document.getElementById("idRentenendwert").value);
+
+ //Rechnung
+     var vZinsfaktor = 1 + vZinssatz / 100;
+     var vRentenendwert = vRente * Math.pow(vZinsfaktor, vLaufzeit)-1)/(vZinsfaktor-1) ;
+     var vJahr = 0;
+     var vRenteJahresAnfang = vRenteJahresEnde;
+
+     var vAusgabe = "";
+         vAusgabe = vAusgabe + "Der Rentenendwert beträgt " + vRentenendwert+ "<br><br>"
+         vAusgabe = vAusgabe + "<table border=1>";
+         vAusgabe = vAusgabe + "<tr><th>Jahr</th><th>Kapital am 1.1.</th><th>Zinsen am 31.12.</th><th>Rente am 31.12</th><th>Kapital am 31.12.</th></tr>";
+
+    while (vJahr <= vLaufzeit) {
+        vZinsen = vRenteJahresAnfang * (vZinssatz / 100);
+        vRente = vRenteJahresAnfang + vZinsen;
+
+     if (vJahr == vLaufzeit) {
+        vAusgabe = vAusgabe + "<tr><td>" + vJahr + "</td><td>" + vRenteJahresAnfang + "</td><td>0</td><td>0</td></tr>";
+    } else {
+        vAusgabe = vAusgabe + "<tr><td>" + vJahr + "</td><td>" + vRenteJahresAnfang + "</td><td>" + vZinsen + "</td><td>" + vRenteJahresEnde + "</td></tr>";
+        }
+        vRenteJahresAnfang = vRenteJahresEnde;
+        vJahr = vJahr+1;
+       }
+
+        document.getElementById("idAusgabe").innerHTML = vAusgabe;
+        vAusgabe = vAusgabe + "</table>";
+          }
+          </script>
+    </head>
+    <body>
+    <h1>Nachschüssiger Rentenendwertrechner</h1>
+
+    Zinssatz: <input id="idZinssatz" type="text" value="2">%<br>
+    Nachschüssigerente: <input id="idRentenendwert" type="text" value="100">€<br>
+    Laufzeit: <input id="idLaufzeit" type="text" value="5">Jahre<br><br>
+
+    <button onClick="fRechner()">Berechnen</button><br><br>
+    <div id="idAusgabe">Klicken Sie auf den Button Berechnen, damit hier eine Tabelle erscheint...</div>
+
+    </body>
+</html>
